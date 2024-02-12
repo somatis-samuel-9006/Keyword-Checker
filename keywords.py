@@ -1,5 +1,6 @@
 import string
 
+#sample description
 job_desc = """
 Java Java java Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam congue pulvinar dolor sed dapibus. 
 In efficitur a mauris placerat ultricies. Ut non quam id nibh scelerisque bibendum sit amet sit amet arcu. 
@@ -42,7 +43,8 @@ keywords = ['C++', 'c++', 'Git', 'git', 'HTML', 'Html', 'html', 'Java', 'java', 
              'github', 'UXUI', 'UI', 'UX', 'ui', 'ux', 'Flask', 'flask', 'Database', 'database', 'Innovation', 'innovation', 
              'Documentation', 'documentation', 'HTML', 'CSS', 'HTML/CSS', 'Technical', 'technical', 'GLSL', 'Teams', 
              'Slack', 'Software Testing', 'software testing', 'Pytest', 'Bash', 'OpenMP', 'OpenCL', 'CUDA', 'OpenGL', 
-             'Vulkan', 'shaders', 'Shaders', 'Produced', 'produced', 'Restructured', 'restructured', 'communicate', 'Communicate']
+             'Vulkan', 'shaders', 'Shaders', 'Produced', 'produced', 'Restructured', 'restructured', 'communicate', 'Communicate',
+             'Problem Solving', 'Problem solving', 'problem solving']
 
 #takes in a multi-line string and builds a dict of all the keywords found in the job description string
 def create_keywords_table(job_desc):
@@ -64,21 +66,18 @@ def create_keywords_table(job_desc):
         if keyword in job_desc_words:
             keywords_dict.update({keyword : job_desc_words[keyword]})
 
-    #sort keywords_dict in ascending order
-    #sorted(iterable, key, reverse)
+    #sort keywords_dict in ascending order: sorted(iterable, key, reverse)
     #this returns list of tuples of dict items, sorted in ascending order by the value
     keywords_dict = sorted(keywords_dict.items(), key=lambda x: x[1], reverse=True)
     #make it a dict again
     keywords_dict = dict(keywords_dict)
     #print keywords in table format
-    print("Keyword          Frequency\n")
-    for word in keywords_dict:
-        print(f"{word}          {keywords_dict[word]}")
+    # print("Keyword          Frequency\n")
+    # for word in keywords_dict:
+    #     print(f"{word}          {keywords_dict[word]}")
 
     return keywords_dict
 
-
-#create_keywords_table(job_desc)
         
 #utility to check if a word is in keywords list
 def check_for_word(keyword):
@@ -87,6 +86,6 @@ def check_for_word(keyword):
     else:
         print("no")
 
-#check_for_word("Communicate")
+#check_for_word("Problem Solving")
 
 

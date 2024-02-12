@@ -1,7 +1,6 @@
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import QFont
 from PyQt5 import QtCore
+from PyQt5.QtGui import QFont
+from PyQt5.QtWidgets import *
 from PyQt5.QtWidgets import QWidget
 import sys
 import keywords
@@ -17,13 +16,16 @@ class MainWindow(QWidget):
         #stack widget to hold the two different layouts of the main window (screen 1 & 2)
         self.stackwidget = QStackedWidget()
         self.screen1 = self.layout1()
-        #self.screen2 = self.layout2()
-        #add the two screen layouts to the stackwidget after setting them up
+        self.screen2 = self.layout2()
+        self.screen3 = self.layout3()
+        #add screen 1 to stackwidget after setting it up. screen 2 added later when button is clicked
         self.stackwidget.addWidget(self.screen1)
-        #self.stackwidget.addWidget(self.screen2)
+        self.stackwidget.addWidget(self.screen2)
+        self.stackwidget.addWidget(self.screen3)
         #add stackedwidget to main layout
         layout.addWidget(self.stackwidget)
         self.setLayout(layout)
+        self.number = 0
 
 #sets up screen layout 1
     def layout1(self):
@@ -35,7 +37,7 @@ class MainWindow(QWidget):
         box_layout.addWidget(self.text_box)
         button = QPushButton("print text")
         box_layout.addWidget(button)
-        #need to connect the signal of button being clicked to handler function. using lambda to have access to text_box in this function
+        #need to connect the signal of button being clicked to handler function
         button.clicked.connect(self.button_clicked)
         
         screen1.setLayout(box_layout)
@@ -46,17 +48,52 @@ class MainWindow(QWidget):
         #widget to hold screen layout, added to stackwidget
         screen2 = QWidget()
         box_layout = QVBoxLayout()
+        # text = list(self.key_words.keys())
+        # self.label_test = QLabel(text[0])
+        # box_layout.addWidget(self.label_test)
         #keywords table
-        table = QTableWidget()
+        self.table = QTableWidget()
+        self.table.setRowCount(0)
+        self.table.setColumnCount(2)
+        #self.fill_table(self.table)
+
+        #change column titles
+        self.table.setHorizontalHeaderLabels(["Keyword", "Frequency"])
+
+        #remove the row titles
+        self.table.verticalHeader().hide()
+
+        #Table will fit the screen horizontally
+        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+
+        box_layout.addWidget(self.table)
+        #go back button
+        button2 = QPushButton("Enter another description")
+        box_layout.addWidget(button2)
+        button2.clicked.connect(self.button2_clicked)
+        screen2.setLayout(box_layout)
+        return screen2
+    
+    #sets up screen layout 3 (no keywords found screen)
+    def layout3(self):
+        screen3 = QWidget()
+        box_layout = QVBoxLayout()
+        no_keywords = QLabel("No keywords were found")
+        no_keywords.setFont(QFont("Ariel", 20))
+
+        box_layout.addWidget(no_keywords, 0, QtCore.Qt.AlignCenter)
+        screen3.setLayout(box_layout)
+        return screen3
+    
+    def fill_table(self, table):
         #set row  and column count
         num_keywords = len(self.key_words)
         table.setRowCount(num_keywords)
-        table.setColumnCount(2)
+        #table.setColumnCount(2)
 
         #add items from keywords dict to table
         #make a list of the keys
         keys = list(self.key_words.keys())
-        print(self.key_words)
         row = 0
         col = 0
         for i in range(num_keywords):
@@ -65,32 +102,37 @@ class MainWindow(QWidget):
             table.setItem(row, col+1, QTableWidgetItem(str(self.key_words[keys[i]])))
             row += 1
 
-        #change column titles
-        table.setHorizontalHeaderLabels(["Keyword", "Frequency"])
+        #return table
 
-        #remove the row titles
-        table.verticalHeader().hide()
-
-         #Table will fit the screen horizontally
-        table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-
-        box_layout.addWidget(table)
-        screen2.setLayout(box_layout)
-        return screen2
-    
+    #signal handler function, called when button is clicked
     def button_clicked(self):
+        #string of all text entered into text box
         text = self.text_box.toPlainText()
-        self.key_words = keywords.create_keywords_table(text)
-        self.screen2 = self.layout2()
-        self.stackwidget.addWidget(self.screen2)
-        self.stackwidget.setCurrentIndex(1)
+        #block until some text is entered into the box
+        if text != "":
+            #create the keywords dict and setup screen layout 2 or 3
+            self.key_words = keywords.create_keywords_table(text)
+
+            #clear the text box
+            self.text_box.clear()
+            if len(self.key_words) != 0:
+                #fill the table
+                self.fill_table(self.table)
+                #set stackwidget to be screen 2
+                self.stackwidget.setCurrentIndex(1)
+            else:
+                #set stackwidget to be screen 3
+                self.stackwidget.setCurrentIndex(2)
+
+    def button2_clicked(self):
+        self.stackwidget.setCurrentIndex(0)
+
 
 
 
 if __name__ == '__main__':
     #create an application
     app = QApplication(sys.argv)
-    stack = QStackedWidget()
     #create window
     window = MainWindow()
     window.show()
