@@ -48,14 +48,10 @@ class MainWindow(QWidget):
         #widget to hold screen layout, added to stackwidget
         screen2 = QWidget()
         box_layout = QVBoxLayout()
-        # text = list(self.key_words.keys())
-        # self.label_test = QLabel(text[0])
-        # box_layout.addWidget(self.label_test)
         #keywords table
         self.table = QTableWidget()
         self.table.setRowCount(0)
         self.table.setColumnCount(2)
-        #self.fill_table(self.table)
 
         #change column titles
         self.table.setHorizontalHeaderLabels(["Keyword", "Frequency"])
@@ -82,6 +78,9 @@ class MainWindow(QWidget):
         no_keywords.setFont(QFont("Ariel", 20))
 
         box_layout.addWidget(no_keywords, 0, QtCore.Qt.AlignCenter)
+        button3 = QPushButton("Enter another description")
+        box_layout.addWidget(button3)
+        button3.clicked.connect(self.button2_clicked)
         screen3.setLayout(box_layout)
         return screen3
     
@@ -89,7 +88,6 @@ class MainWindow(QWidget):
         #set row  and column count
         num_keywords = len(self.key_words)
         table.setRowCount(num_keywords)
-        #table.setColumnCount(2)
 
         #add items from keywords dict to table
         #make a list of the keys

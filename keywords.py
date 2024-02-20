@@ -88,6 +88,6 @@ def check_for_word(keyword):
     else:
         print("no")
 
-check_for_word("Solutions")
+#check_for_word("Solutions")
 
 
