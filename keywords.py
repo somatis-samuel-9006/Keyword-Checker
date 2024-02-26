@@ -45,8 +45,8 @@ keywords = ['C++', 'c++', 'Git', 'git', 'HTML', 'Html', 'html', 'Java', 'java', 
              'Slack', 'Software Testing', 'software testing', 'Pytest', 'Bash', 'OpenMP', 'OpenCL', 'CUDA', 'OpenGL', 
              'Vulkan', 'shaders', 'Shaders', 'Produced', 'produced', 'Restructured', 'restructured', 'communicate', 'Communicate',
              'Problem Solving', 'Problem solving', 'problem solving', 'AI', 'Analytics', 'analytics', 'R', 'linux', 'DevOps', 'Solutions', 'solutions',
-            'platforms', 'Platforms', 'platform', 'Platforms', 'systems', 'Systems', 'framework', 'Framework', 'frameworks', 'Frameworks'
-            'machine learning', 'Machine learning', 'Qt']
+            'platforms', 'Platforms', 'platform', 'Platforms', 'systems', 'Systems', 'framework', 'Framework', 'frameworks', 'Frameworks',
+            'machine learning', 'Machine learning', 'Qt', 'Object-oriented', 'object-oriented', 'Object oriented', 'object oriented']
 
 #takes in a multi-line string and builds a dict of all the keywords found in the job description string
 def create_keywords_table(job_desc):
@@ -88,6 +88,6 @@ def check_for_word(keyword):
     else:
         print("no")
 
-#check_for_word("Solutions")
+check_for_word("Object-oriented")
 
 
