@@ -3,7 +3,7 @@ from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import *
 from PyQt5.QtWidgets import QWidget
 import sys
-import keywords
+import keyword_functions
 
 class MainWindow(QWidget):
     def __init__(self):
@@ -109,7 +109,7 @@ class MainWindow(QWidget):
         #block until some text is entered into the box
         if text != "":
             #create the keywords dict and setup screen layout 2 or 3
-            self.key_words = keywords.create_keywords_table(text)
+            self.key_words = keyword_functions.create_keywords_table(text)
 
             #clear the text box
             self.text_box.clear()

@@ -1,4 +1,3 @@
-import string
 
 #sample description
 job_desc = """
@@ -46,48 +45,4 @@ keywords = ['C++', 'c++', 'Git', 'git', 'HTML', 'Html', 'html', 'Java', 'java', 
              'Vulkan', 'shaders', 'Shaders', 'Produced', 'produced', 'Restructured', 'restructured', 'communicate', 'Communicate',
              'Problem Solving', 'Problem solving', 'problem solving', 'AI', 'Analytics', 'analytics', 'R', 'linux', 'DevOps', 'Solutions', 'solutions',
             'platforms', 'Platforms', 'platform', 'Platforms', 'systems', 'Systems', 'framework', 'Framework', 'frameworks', 'Frameworks',
-            'machine learning', 'Machine learning', 'Qt', 'Object-oriented', 'object-oriented', 'Object oriented', 'object oriented']
-
-#takes in a multi-line string and builds a dict of all the keywords found in the job description string
-def create_keywords_table(job_desc):
-    #remove punctuation from str using string translate method
-    job_desc = job_desc.translate(str.maketrans("", "", string.punctuation))
-
-    #build dict of all words in job desc and how many times they occur
-    job_desc_words = {}
-    for word in job_desc.split():
-        if word in job_desc_words:
-            job_desc_words[word] += 1
-        else:
-            #add word to dict if not yet in dict
-            job_desc_words.update({word : 1})
-            
-    #build dict of what keywords exist in job description and how often they're used
-    keywords_dict = {}
-    for keyword in keywords:
-        if keyword in job_desc_words:
-            keywords_dict.update({keyword : job_desc_words[keyword]})
-
-    #sort keywords_dict in ascending order: sorted(iterable, key, reverse)
-    #this returns list of tuples of dict items, sorted in ascending order by the value
-    keywords_dict = sorted(keywords_dict.items(), key=lambda x: x[1], reverse=True)
-    #make it a dict again
-    keywords_dict = dict(keywords_dict)
-    #print keywords in table format
-    # print("Keyword          Frequency\n")
-    # for word in keywords_dict:
-    #     print(f"{word}          {keywords_dict[word]}")
-
-    return keywords_dict
-
-        
-#utility to check if a word is in keywords list
-def check_for_word(keyword):
-    if keyword in keywords:
-        print("yes")
-    else:
-        print("no")
-
-check_for_word("Object-oriented")
-
-
+            'machine learning', 'Machine learning', 'Qt', 'Objectoriented', 'objectoriented', 'Object oriented', 'object oriented']
