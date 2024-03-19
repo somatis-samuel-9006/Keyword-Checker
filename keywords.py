@@ -46,3 +46,4 @@ keywords = ['C++', 'c++', 'Git', 'git', 'HTML', 'Html', 'html', 'Java', 'java', 
              'Problem Solving', 'Problem solving', 'problem solving', 'AI', 'Analytics', 'analytics', 'R', 'linux', 'DevOps', 'Solutions', 'solutions',
             'platforms', 'Platforms', 'platform', 'Platforms', 'systems', 'Systems', 'framework', 'Framework', 'frameworks', 'Frameworks',
             'machine learning', 'Machine learning', 'Qt', 'Objectoriented', 'objectoriented', 'Object oriented', 'object oriented']
+

@@ -1,7 +1,6 @@
 from PyQt5 import QtCore
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import *
-from PyQt5.QtWidgets import QWidget
 import sys
 import keyword_functions
 
@@ -18,30 +17,33 @@ class MainWindow(QWidget):
         self.screen1 = self.layout1()
         self.screen2 = self.layout2()
         self.screen3 = self.layout3()
-        #add screen 1 to stackwidget after setting it up. screen 2 added later when button is clicked
+        #add screen 1 & 2 to stackwidget after setting it up.
         self.stackwidget.addWidget(self.screen1)
         self.stackwidget.addWidget(self.screen2)
         self.stackwidget.addWidget(self.screen3)
         #add stackedwidget to main layout
         layout.addWidget(self.stackwidget)
         self.setLayout(layout)
-        self.number = 0
 
 #sets up screen layout 1
     def layout1(self):
         #widget to hold screen layout, added to stackwidget
         screen1 = QWidget()
         box_layout = QVBoxLayout()
+        button1 = QPushButton("Add words")
+        button1.clicked.connect(self.edit_button_clicked)
+        box_layout.addWidget(button1)
         #using self. syntax for text_box since it needs to be accessed in handler function
         self.text_box = QPlainTextEdit()
         box_layout.addWidget(self.text_box)
-        button = QPushButton("print text")
-        box_layout.addWidget(button)
+        button2 = QPushButton("Find Keywords")
+        box_layout.addWidget(button2)
         #need to connect the signal of button being clicked to handler function
-        button.clicked.connect(self.button_clicked)
+        button2.clicked.connect(self.keyword_button_clicked)
         
         screen1.setLayout(box_layout)
         return screen1
+    
         
 #sets up screen layout 2
     def layout2(self):
@@ -64,25 +66,30 @@ class MainWindow(QWidget):
 
         box_layout.addWidget(self.table)
         #go back button
-        button2 = QPushButton("Enter another description")
-        box_layout.addWidget(button2)
-        button2.clicked.connect(self.button2_clicked)
+        goback_button = QPushButton("Enter another description")
+        box_layout.addWidget(goback_button)
+        goback_button.clicked.connect(self.goback_button_clicked)
         screen2.setLayout(box_layout)
         return screen2
     
-    #sets up screen layout 3 (no keywords found screen)
+    #this is the screen for viewing, adding, and removing keywords
     def layout3(self):
         screen3 = QWidget()
         box_layout = QVBoxLayout()
-        no_keywords = QLabel("No keywords were found")
-        no_keywords.setFont(QFont("Ariel", 20))
 
-        box_layout.addWidget(no_keywords, 0, QtCore.Qt.AlignCenter)
-        button3 = QPushButton("Enter another description")
-        box_layout.addWidget(button3)
-        button3.clicked.connect(self.button2_clicked)
+        goback_button = QPushButton("Enter another description")
+        box_layout.addWidget(goback_button)
+        goback_button.clicked.connect(self.goback_button_clicked)
+
         screen3.setLayout(box_layout)
         return screen3
+    
+    #sets up the pop up window that is displayed when no keywords are found
+    def pop_up(self):
+        box = QMessageBox()
+        box.setWindowTitle("Error")
+        box.setText("No keywords were found in this description.")
+        box.exec()
     
     def fill_table(self, table):
         #set row  and column count
@@ -103,7 +110,7 @@ class MainWindow(QWidget):
         #return table
 
     #signal handler function, called when button is clicked
-    def button_clicked(self):
+    def keyword_button_clicked(self):
         #string of all text entered into text box
         text = self.text_box.toPlainText()
         #block until some text is entered into the box
@@ -119,12 +126,14 @@ class MainWindow(QWidget):
                 #set stackwidget to be screen 2
                 self.stackwidget.setCurrentIndex(1)
             else:
-                #set stackwidget to be screen 3
-                self.stackwidget.setCurrentIndex(2)
+                #display the no keywords pop up
+                self.pop_up()
 
-    def button2_clicked(self):
+    def goback_button_clicked(self):
         self.stackwidget.setCurrentIndex(0)
 
+    def edit_button_clicked(self):
+        self.stackwidget.setCurrentIndex(2)
 
 
 

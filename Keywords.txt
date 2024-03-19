@@ -1,0 +1,160 @@
+C++
+c++
+Git
+git
+HTML
+Html
+html
+Java
+java
+Agile
+agile
+Maven
+maven
+Coding
+Python
+python
+Testing
+testing
+Teamwork
+teamwork
+Algorithm
+algorithm
+Algorithms
+algorithms
+Debugging
+debugging
+Front End
+front end
+Waterfall
+waterfall
+JavaScript
+Javascript
+javascript
+Code Review
+code review
+Engineering
+engineering
+Programming
+programming
+Software Test
+software test
+Testing
+testing
+Data Structures,
+data structures,
+Computer Science
+computer science
+CS
+Development Tool
+development tool
+Software Solution
+software solution
+Software Development
+software development
+Software Engineering
+software
+engineering
+Language
+language
+Methodology
+methodology
+Solving
+solving
+Communication
+communication
+Participating
+participating
+Data
+data
+Team
+team
+Client
+client
+Design
+design
+Analyst
+analyst
+Develop
+develop
+Software
+software
+Technology
+technology
+Implementation
+implementation
+SQL
+MySQL
+Agile
+C
+AWS
+Linux
+Git
+Github
+git
+github
+UXUI
+UI
+UX
+ui
+ux
+Flask
+flask
+Database
+database
+Innovation
+innovation
+Documentation
+documentation
+HTML
+CSS
+HTML/CSS
+Technical
+technical
+GLSL
+Teams
+Slack
+Software Testing
+software testing
+Pytest
+Bash
+OpenMP
+OpenCL
+CUDA
+OpenGL
+Vulkan
+shaders
+Shaders
+Produced
+produced
+Restructured
+restructured
+communicate
+Communicate
+Problem Solving
+Problem solving
+problem solving
+AI
+Analytics
+analytics
+R
+linux
+DevOps
+Solutions
+solutions
+platforms
+Platforms
+platform
+Platforms
+systems
+Systems
+framework
+Framework
+frameworks
+Frameworks
+machine learning
+Machine learning
+Objectoriented
+objectoriented
+Object oriented
+object oriented
