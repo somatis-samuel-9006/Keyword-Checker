@@ -82,6 +82,8 @@ def check_for_word(keyword):
 #check_for_word("Object oriented")
 #add_word("jo")
 #add_word("bob")
+# remove_word("jo")
+# remove_word("bob")
 #remove_word("Qt")
 
 #create_keywords_table("java java mavdsaddsavdsa")

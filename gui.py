@@ -77,9 +77,37 @@ class MainWindow(QWidget):
         screen3 = QWidget()
         box_layout = QVBoxLayout()
 
-        goback_button = QPushButton("Enter another description")
+        #list widget for keywords display
+        keywords_display = QListWidget()
+
+        #read in keywords list
+        with open("Keywords.txt", "r+") as f:
+            file_words = f.readlines()
+
+        for i in range(len(file_words)):
+            file_words[i] = file_words[i].strip('\n')
+            #add it to the display
+            keywords_display.addItem(QListWidgetItem(file_words[i]))
+
+        #display number of words above list, Qlabel needs to be a string (not updating when new word is added)
+        number_of_words = QLabel("Word count: " + str(len(file_words)))
+        box_layout.addWidget(number_of_words)
+        box_layout.addWidget(keywords_display)
+    
+
+        goback_button = QPushButton("Back")
         box_layout.addWidget(goback_button)
         goback_button.clicked.connect(self.goback_button_clicked)
+
+        add_button = QPushButton("Add")
+        box_layout.addWidget(add_button)
+        #use lamda function to pass additional argument to signal handler
+        add_button.clicked.connect(lambda: self.add_to_list(keywords_display, number_of_words))
+
+        remove_button = QPushButton("Remove")
+        box_layout.addWidget(remove_button)
+        #connect
+
 
         screen3.setLayout(box_layout)
         return screen3
@@ -90,24 +118,6 @@ class MainWindow(QWidget):
         box.setWindowTitle("Error")
         box.setText("No keywords were found in this description.")
         box.exec()
-    
-    def fill_table(self, table):
-        #set row  and column count
-        num_keywords = len(self.key_words)
-        table.setRowCount(num_keywords)
-
-        #add items from keywords dict to table
-        #make a list of the keys
-        keys = list(self.key_words.keys())
-        row = 0
-        col = 0
-        for i in range(num_keywords):
-            table.setItem(row, col, QTableWidgetItem(keys[i]))
-            #Qtablewidget items cannot be ints, but they can be str
-            table.setItem(row, col+1, QTableWidgetItem(str(self.key_words[keys[i]])))
-            row += 1
-
-        #return table
 
     #signal handler function, called when button is clicked
     def keyword_button_clicked(self):
@@ -128,6 +138,43 @@ class MainWindow(QWidget):
             else:
                 #display the no keywords pop up
                 self.pop_up()
+    
+    def fill_table(self, table):
+        #set row  and column count
+        num_keywords = len(self.key_words)
+        table.setRowCount(num_keywords)
+
+        #add items from keywords dict to table
+        #make a list of the keys
+        keys = list(self.key_words.keys())
+        row = 0
+        col = 0
+        for i in range(num_keywords):
+            table.setItem(row, col, QTableWidgetItem(keys[i]))
+            #Qtablewidget items cannot be ints, but they can be str
+            table.setItem(row, col+1, QTableWidgetItem(str(self.key_words[keys[i]])))
+            row += 1
+
+        #return table
+
+    #add a new keyword to the keywords display
+    def add_to_list(self, listwidget, count_label):
+        #add the word to keywords.txt
+        word = "bob"
+        keyword_functions.add_word(word)
+        listwidget.addItem(QListWidgetItem(word))
+        #update the list widget
+        listwidget.repaint()
+
+        #update the count
+        label_text = count_label.text()
+        #text is formated: Word Count: xxxxx so need to get everything after first 12 chars
+        num = int(label_text[12:])
+        num += 1
+        count_label.setText("Word count: " + str(num))
+        
+
+
 
     def goback_button_clicked(self):
         self.stackwidget.setCurrentIndex(0)
