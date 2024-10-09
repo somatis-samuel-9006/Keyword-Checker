@@ -159,19 +159,25 @@ class MainWindow(QWidget):
 
     #add a new keyword to the keywords display
     def add_to_list(self, listwidget, count_label):
+        #input dialog to get the word from user
+        #this syntax is from documentation of QinputDialog. word is the value user enters, ok is true is they click 'ok' an
+        #false if they click cancel
+        dialog = QInputDialog()
+        word, ok = dialog.getText(self, "Add Word", "Enter a word")
+        if word and ok:
         #add the word to keywords.txt
-        word = "bob"
-        keyword_functions.add_word(word)
-        listwidget.addItem(QListWidgetItem(word))
-        #update the list widget
-        listwidget.repaint()
+            #word = "bob"
+            keyword_functions.add_word(word)
+            listwidget.addItem(QListWidgetItem(word))
+            #update the list widget
+            listwidget.repaint()
 
-        #update the count
-        label_text = count_label.text()
-        #text is formated: Word Count: xxxxx so need to get everything after first 12 chars
-        num = int(label_text[12:])
-        num += 1
-        count_label.setText("Word count: " + str(num))
+            #update the count
+            label_text = count_label.text()
+            #text is formated: Word Count: xxxxx so need to get everything after first 12 chars
+            num = int(label_text[12:])
+            num += 1
+            count_label.setText("Word count: " + str(num))
         
 
 
@@ -187,6 +193,9 @@ class MainWindow(QWidget):
 if __name__ == '__main__':
     #create an application
     app = QApplication(sys.argv)
+    #from stack overflow, disables the '?' button in the input dialog for adding words (application wide)
+    #because disabling it in the constructor for said dialog would not work, don't know why
+    app.setAttribute(QtCore.Qt.AA_DisableWindowContextHelpButton)
     #create window
     window = MainWindow()
     window.show()
