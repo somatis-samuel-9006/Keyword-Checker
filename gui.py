@@ -112,11 +112,11 @@ class MainWindow(QWidget):
         screen3.setLayout(box_layout)
         return screen3
     
-    #sets up the pop up window that is displayed when no keywords are found
-    def pop_up(self):
+    #sets up the pop up window that is displayed with text passed
+    def pop_up(self, msg):
         box = QMessageBox()
         box.setWindowTitle("Error")
-        box.setText("No keywords were found in this description.")
+        box.setText(msg)
         box.exec()
 
     #signal handler function, called when button is clicked
@@ -137,7 +137,7 @@ class MainWindow(QWidget):
                 self.stackwidget.setCurrentIndex(1)
             else:
                 #display the no keywords pop up
-                self.pop_up()
+                self.pop_up("No keywords were found in this description.")
     
     def fill_table(self, table):
         #set row  and column count
@@ -166,19 +166,71 @@ class MainWindow(QWidget):
         word, ok = dialog.getText(self, "Add Word", "Enter a word")
         if word and ok:
         #add the word to keywords.txt
-            #word = "bob"
-            keyword_functions.add_word(word)
-            listwidget.addItem(QListWidgetItem(word))
-            #update the list widget
-            listwidget.repaint()
+            #add_word will return false if word already in file
+            if keyword_functions.add_word(word):
+                listwidget.addItem(QListWidgetItem(word))
+                #update the list widget
+                listwidget.repaint()
 
-            #update the count
-            label_text = count_label.text()
-            #text is formated: Word Count: xxxxx so need to get everything after first 12 chars
-            num = int(label_text[12:])
-            num += 1
-            count_label.setText("Word count: " + str(num))
-        
+                #update the count
+                label_text = count_label.text()
+                #text is formated: Word Count: xxxxx so need to get everything after first 12 chars
+                num = int(label_text[12:])
+                num += 1
+                count_label.setText("Word count: " + str(num))
+            else:
+                #display pop up for duplicate word
+                self.pop_up("This word is already in the list.")
+
+    def add_to_list(self, listwidget, count_label):
+        #input dialog to get the word from user
+        #this syntax is from documentation of QinputDialog. word is the value user enters, ok is true is they click 'ok' an
+        #false if they click cancel
+        dialog = QInputDialog()
+        word, ok = dialog.getText(self, "Add Word", "Enter a word")
+        if word and ok:
+        #add the word to keywords.txt
+            #add_word will return false if word already in file
+            if keyword_functions.add_word(word):
+                listwidget.addItem(QListWidgetItem(word))
+                #update the list widget
+                listwidget.repaint()
+
+                #update the count
+                label_text = count_label.text()
+                #text is formated: Word Count: xxxxx so need to get everything after first 12 chars
+                num = int(label_text[12:])
+                num += 1
+                count_label.setText("Word count: " + str(num))
+            else:
+                #display pop up for duplicate word
+                self.pop_up("This word is already in the list.")
+
+            
+    def remove_from_list(self, listwidget, count_label):
+        #input dialog to get the word from user
+        #this syntax is from documentation of QinputDialog. word is the value user enters, ok is true is they click 'ok' an
+        #false if they click cancel
+        dialog = QInputDialog()
+        word, ok = dialog.getText(self, "Remove Word", "Enter a word")
+        if word and ok:
+        #add the word to keywords.txt
+            #add_word will return false if word already in file
+            if keyword_functions.add_word(word):
+                listwidget.addItem(QListWidgetItem(word))
+                #update the list widget
+                listwidget.repaint()
+
+                #update the count
+                label_text = count_label.text()
+                #text is formated: Word Count: xxxxx so need to get everything after first 12 chars
+                num = int(label_text[12:])
+                num += 1
+                count_label.setText("Word count: " + str(num))
+            else:
+                #display pop up for duplicate word
+                self.pop_up("This word is already in the list.")
+   
 
 
 

@@ -38,8 +38,14 @@ def create_keywords_table(job_desc):
     return keywords_dict
 
 def add_word(word):
-    with open("Keywords.txt", "a+") as f:
-        f.write(f"{word}\n")
+    #dont add word that is already in the file
+    if not check_for_word(word):
+        with open("Keywords.txt", "a+") as f:
+            f.write(f"{word}\n")
+            print("writing")
+            return True
+    else:
+        return False
 
 #remove word from keywords file by reading in the data, removing a value if present, then writing the new data back to file
 def remove_word(word_to_delete):
@@ -51,13 +57,15 @@ def remove_word(word_to_delete):
 
     if word_to_delete in file_words:
         file_words.remove(word_to_delete)
-    else:
-        print("Word is not in file")
 
-    #re-write to file the new list
-    with open("Keywords.txt", "w+") as f:
-        for word in file_words:
-            f.write(f"{word}\n")
+        #re-write to file the new list
+        with open("Keywords.txt", "w+") as f:
+            for word in file_words:
+                f.write(f"{word}\n")
+
+        return True
+    else:
+        return False
 
         
 #utility to check if a word is in keywords list
@@ -70,9 +78,9 @@ def check_for_word(keyword):
         file_words[i] = file_words[i].strip('\n')
 
     if keyword in file_words:
-        print("yes")
+        return True
     else:
-        print("no")
+        return False
 
 
 # with open("Keywords.txt", "w+") as f:
