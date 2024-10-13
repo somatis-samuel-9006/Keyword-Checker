@@ -106,7 +106,7 @@ class MainWindow(QWidget):
 
         remove_button = QPushButton("Remove")
         box_layout.addWidget(remove_button)
-        #connect
+        remove_button.clicked.connect(lambda: self.remove_from_list(keywords_display, number_of_words))
 
 
         screen3.setLayout(box_layout)
@@ -182,31 +182,7 @@ class MainWindow(QWidget):
                 #display pop up for duplicate word
                 self.pop_up("This word is already in the list.")
 
-    def add_to_list(self, listwidget, count_label):
-        #input dialog to get the word from user
-        #this syntax is from documentation of QinputDialog. word is the value user enters, ok is true is they click 'ok' an
-        #false if they click cancel
-        dialog = QInputDialog()
-        word, ok = dialog.getText(self, "Add Word", "Enter a word")
-        if word and ok:
-        #add the word to keywords.txt
-            #add_word will return false if word already in file
-            if keyword_functions.add_word(word):
-                listwidget.addItem(QListWidgetItem(word))
-                #update the list widget
-                listwidget.repaint()
 
-                #update the count
-                label_text = count_label.text()
-                #text is formated: Word Count: xxxxx so need to get everything after first 12 chars
-                num = int(label_text[12:])
-                num += 1
-                count_label.setText("Word count: " + str(num))
-            else:
-                #display pop up for duplicate word
-                self.pop_up("This word is already in the list.")
-
-            
     def remove_from_list(self, listwidget, count_label):
         #input dialog to get the word from user
         #this syntax is from documentation of QinputDialog. word is the value user enters, ok is true is they click 'ok' an
@@ -215,9 +191,12 @@ class MainWindow(QWidget):
         word, ok = dialog.getText(self, "Remove Word", "Enter a word")
         if word and ok:
         #add the word to keywords.txt
-            #add_word will return false if word already in file
-            if keyword_functions.add_word(word):
-                listwidget.addItem(QListWidgetItem(word))
+            if keyword_functions.remove_word(word):
+                #find qlistwidgetitem with the string name of the word, returns list of one
+                row_item = listwidget.findItems(word, QtCore.Qt.MatchExactly)
+                #get index in listwidget of item to be removed
+                index = listwidget.row(row_item[0])
+                listwidget.takeItem(index)
                 #update the list widget
                 listwidget.repaint()
 
@@ -225,11 +204,11 @@ class MainWindow(QWidget):
                 label_text = count_label.text()
                 #text is formated: Word Count: xxxxx so need to get everything after first 12 chars
                 num = int(label_text[12:])
-                num += 1
+                num -= 1
                 count_label.setText("Word count: " + str(num))
             else:
                 #display pop up for duplicate word
-                self.pop_up("This word is already in the list.")
+                self.pop_up("Word not found in list.")
    
 
 

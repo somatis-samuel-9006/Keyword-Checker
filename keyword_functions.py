@@ -42,7 +42,6 @@ def add_word(word):
     if not check_for_word(word):
         with open("Keywords.txt", "a+") as f:
             f.write(f"{word}\n")
-            print("writing")
             return True
     else:
         return False
