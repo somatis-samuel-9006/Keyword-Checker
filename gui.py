@@ -108,14 +108,18 @@ class MainWindow(QWidget):
         box_layout.addWidget(remove_button)
         remove_button.clicked.connect(lambda: self.remove_from_list(keywords_display, number_of_words))
 
+        search_button = QPushButton("Search")
+        box_layout.addWidget(search_button)
+        search_button.clicked.connect(self.search_list)
+
 
         screen3.setLayout(box_layout)
         return screen3
     
     #sets up the pop up window that is displayed with text passed
-    def pop_up(self, msg):
+    def pop_up(self, window_title, msg):
         box = QMessageBox()
-        box.setWindowTitle("Error")
+        box.setWindowTitle(window_title)
         box.setText(msg)
         box.exec()
 
@@ -137,7 +141,7 @@ class MainWindow(QWidget):
                 self.stackwidget.setCurrentIndex(1)
             else:
                 #display the no keywords pop up
-                self.pop_up("No keywords were found in this description.")
+                self.pop_up("Error", "No keywords were found in this description.")
     
     def fill_table(self, table):
         #set row  and column count
@@ -180,7 +184,7 @@ class MainWindow(QWidget):
                 count_label.setText("Word count: " + str(num))
             else:
                 #display pop up for duplicate word
-                self.pop_up("This word is already in the list.")
+                self.pop_up("Error", "This word is already in the list.")
 
 
     def remove_from_list(self, listwidget, count_label):
@@ -192,7 +196,7 @@ class MainWindow(QWidget):
         if word and ok:
         #add the word to keywords.txt
             if keyword_functions.remove_word(word):
-                #find qlistwidgetitem with the string name of the word, returns list of one
+                #find qlistwidgetitem with the string name of the word, returns list with one element
                 row_item = listwidget.findItems(word, QtCore.Qt.MatchExactly)
                 #get index in listwidget of item to be removed
                 index = listwidget.row(row_item[0])
@@ -208,9 +212,18 @@ class MainWindow(QWidget):
                 count_label.setText("Word count: " + str(num))
             else:
                 #display pop up for duplicate word
-                self.pop_up("Word not found in list.")
+                self.pop_up("Error", "Word not found in list.")
    
-
+    def search_list(self):
+        dialog = QInputDialog()
+        word, ok = dialog.getText(self, "Search", "Enter a word")
+        if word and ok:
+            print(word)
+            if keyword_functions.check_for_word(word):
+                self.pop_up("Result", f"{word} is in the list.")
+            else:
+                self.pop_up("Result", "Word not found in list.")
+        
 
 
     def goback_button_clicked(self):

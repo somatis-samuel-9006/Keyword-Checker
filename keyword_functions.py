@@ -86,7 +86,6 @@ def check_for_word(keyword):
 #     for word in keywords.keywords:
 #         f.write(f"{word}\n")
 
-#check_for_word("Object oriented")
 #add_word("jo")
 #add_word("bob")
 # remove_word("jo")
