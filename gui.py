@@ -29,19 +29,30 @@ class MainWindow(QWidget):
     def layout1(self):
         #widget to hold screen layout, added to stackwidget
         screen1 = QWidget()
-        box_layout = QVBoxLayout()
+        outer_layout = QVBoxLayout()
+        #layout for top row of vertical box layout
+        inner_layout = QHBoxLayout()
+
+        prompt = QLabel("Enter a description:")
+        inner_layout.addWidget(prompt, alignment=QtCore.Qt.AlignLeft)
+
         button1 = QPushButton("Add words")
         button1.clicked.connect(self.edit_button_clicked)
-        box_layout.addWidget(button1)
+        #widgets in layout that need to be a manually specified size use setFixedSize
+        button1.setFixedSize(QtCore.QSize(188, 34))
+        inner_layout.addWidget(button1, alignment=QtCore.Qt.AlignRight)
+        outer_layout.addLayout(inner_layout)
         #using self. syntax for text_box since it needs to be accessed in handler function
         self.text_box = QPlainTextEdit()
-        box_layout.addWidget(self.text_box)
+        outer_layout.addWidget(self.text_box)
         button2 = QPushButton("Find Keywords")
-        box_layout.addWidget(button2)
         #need to connect the signal of button being clicked to handler function
         button2.clicked.connect(self.keyword_button_clicked)
+        button2.setFixedSize(QtCore.QSize(248, 34))
+
+        outer_layout.addWidget(button2, alignment=QtCore.Qt.AlignCenter)
         
-        screen1.setLayout(box_layout)
+        screen1.setLayout(outer_layout)
         return screen1
     
         
@@ -67,18 +78,22 @@ class MainWindow(QWidget):
         box_layout.addWidget(self.table)
         #go back button
         goback_button = QPushButton("Enter another description")
-        box_layout.addWidget(goback_button)
         goback_button.clicked.connect(self.goback_button_clicked)
+        goback_button.setFixedSize(QtCore.QSize(248, 34))
+
+        box_layout.addWidget(goback_button, alignment=QtCore.Qt.AlignCenter)
         screen2.setLayout(box_layout)
         return screen2
     
     #this is the screen for viewing, adding, and removing keywords
     def layout3(self):
         screen3 = QWidget()
-        box_layout = QVBoxLayout()
+        outer_layout = QVBoxLayout()
 
         #list widget for keywords display
         keywords_display = QListWidget()
+        keywords_display.setFixedSize(QtCore.QSize(640, 480))
+        #print(keywords_display.size())
 
         #read in keywords list
         with open("Keywords.txt", "r+") as f:
@@ -91,29 +106,39 @@ class MainWindow(QWidget):
 
         #display number of words above list, Qlabel needs to be a string (not updating when new word is added)
         number_of_words = QLabel("Word count: " + str(len(file_words)))
-        box_layout.addWidget(number_of_words)
-        box_layout.addWidget(keywords_display)
+        outer_layout.addWidget(number_of_words)
+        #layout to hold the list widget and the Vboxlayout of the buttons
+        inner_layout = QHBoxLayout()
+        inner_layout.addWidget(keywords_display, alignment=QtCore.Qt.AlignLeft)
+        button_layout = QVBoxLayout()
     
 
-        goback_button = QPushButton("Back")
-        box_layout.addWidget(goback_button)
-        goback_button.clicked.connect(self.goback_button_clicked)
-
         add_button = QPushButton("Add")
-        box_layout.addWidget(add_button)
+        add_button.setFixedSize(QtCore.QSize(248, 45))
         #use lamda function to pass additional argument to signal handler
         add_button.clicked.connect(lambda: self.add_to_list(keywords_display, number_of_words))
+        button_layout.addWidget(add_button)
 
         remove_button = QPushButton("Remove")
-        box_layout.addWidget(remove_button)
+        remove_button.setFixedSize(QtCore.QSize(248, 45))
         remove_button.clicked.connect(lambda: self.remove_from_list(keywords_display, number_of_words))
+        button_layout.addWidget(remove_button)
 
         search_button = QPushButton("Search")
-        box_layout.addWidget(search_button)
+        search_button.setFixedSize(QtCore.QSize(248, 45))
         search_button.clicked.connect(self.search_list)
+        button_layout.addWidget(search_button)
 
+        inner_layout.addLayout(button_layout)
+        outer_layout.addLayout(inner_layout)
 
-        screen3.setLayout(box_layout)
+        goback_button = QPushButton("Back")
+        goback_button.clicked.connect(self.goback_button_clicked)
+        goback_button.setFixedSize(QtCore.QSize(248, 34))
+        outer_layout.addWidget(goback_button, alignment=QtCore.Qt.AlignLeft)
+
+        outer_layout.setContentsMargins(100, 20, 100, 20)
+        screen3.setLayout(outer_layout)
         return screen3
     
     #sets up the pop up window that is displayed with text passed
