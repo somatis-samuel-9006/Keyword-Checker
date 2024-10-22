@@ -3,13 +3,16 @@ from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import *
 import sys
 import keyword_functions
+from win32api import GetMonitorInfo, MonitorFromPoint
 
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
         #create a window
         self.setWindowTitle("Keyword Checker")
-        self.setGeometry(250, 250, 1300, 500)
+        dimensions = self.window_dimsensions()
+        self.setGeometry(dimensions[0], dimensions[1], 1300, 500)
+
         #main window layout
         layout = QVBoxLayout()
         #stack widget to hold the two different layouts of the main window (screen 1 & 2)
@@ -141,9 +144,27 @@ class MainWindow(QWidget):
         screen3.setLayout(outer_layout)
         return screen3
     
-    #sets up the pop up window that is displayed with text passed
+    #calculates and returns the appropriate geometry values for the main window
+    def window_dimsensions(self):
+        #make sure we are using the primary monitor, which has its upper left corner at 0,0
+        primary_monitor = GetMonitorInfo(MonitorFromPoint((0,0)))
+        #centering window in WORK AREA (desktop - taskbar) dimensions. GetMonitorInfo returns a dict which has work area info
+        #assigned to the 'Work' key. index 2 and 3 are the work area dimensions
+        work_area = primary_monitor.get("Work")
+        work_width = work_area[2]
+        work_height = work_area[3]
+        # #standard with and height of the window that I like
+        window_width = 1300
+        window_height = 500
+        # #center top left corner of window
+        x = (work_width - window_width) // 2
+        y = (work_height - window_height) // 2
+        return [x , y]
+
+
+    #sets up the pop up window that displays the given message
     def pop_up(self, window_title, msg):
-        box = QMessageBox()
+        box = QMessageBox(self)
         box.setWindowTitle(window_title)
         box.setText(msg)
         box.exec()
@@ -243,7 +264,6 @@ class MainWindow(QWidget):
         dialog = QInputDialog()
         word, ok = dialog.getText(self, "Search", "Enter a word")
         if word and ok:
-            print(word)
             if keyword_functions.check_for_word(word):
                 self.pop_up("Result", f"{word} is in the list.")
             else:
