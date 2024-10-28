@@ -4,13 +4,14 @@ from PyQt5.QtWidgets import *
 import sys
 import keyword_functions
 from win32api import GetMonitorInfo, MonitorFromPoint
+from PyQt5.QtGui import QScreen
 
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
         #create a window
         self.setWindowTitle("Keyword Checker")
-        dimensions = self.window_dimsensions()
+        dimensions = self.other()
         self.setGeometry(dimensions[0], dimensions[1], 1300, 500)
 
         #main window layout
@@ -157,6 +158,20 @@ class MainWindow(QWidget):
         window_width = 1300
         window_height = 500
         # #center top left corner of window
+        x = (work_width - window_width) // 2
+        y = (work_height - window_height) // 2
+        return [x , y]
+    
+    def other(self):
+        screen = app.primaryScreen()
+        #availableGeometry gets the work area (desktop - taskbar)
+        geo = screen.availableGeometry()
+        #size dimensions of qmainwindow
+        window_width = 1300
+        window_height = 500
+        work_height = geo.height()
+        work_width = geo.width()
+        #center top left corner of the window
         x = (work_width - window_width) // 2
         y = (work_height - window_height) // 2
         return [x , y]
