@@ -1,18 +1,17 @@
 from PyQt5 import QtCore
-from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import *
+from PyQt5 import QtGui
 import sys
 import keyword_functions
-from win32api import GetMonitorInfo, MonitorFromPoint
-from PyQt5.QtGui import QScreen
 
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
         #create a window
         self.setWindowTitle("Keyword Checker")
-        dimensions = self.other()
-        self.setGeometry(dimensions[0], dimensions[1], 1300, 500)
+        self.setWindowIcon(QtGui.QIcon('logo.png'))
+        dimensions = self.window_dimensions(1300, 500)
+        self.setGeometry(dimensions[0], dimensions[1], dimensions[2], dimensions[3])
 
         #main window layout
         layout = QVBoxLayout()
@@ -145,36 +144,18 @@ class MainWindow(QWidget):
         screen3.setLayout(outer_layout)
         return screen3
     
-    #calculates and returns the appropriate geometry values for the main window
-    def window_dimsensions(self):
-        #make sure we are using the primary monitor, which has its upper left corner at 0,0
-        primary_monitor = GetMonitorInfo(MonitorFromPoint((0,0)))
-        #centering window in WORK AREA (desktop - taskbar) dimensions. GetMonitorInfo returns a dict which has work area info
-        #assigned to the 'Work' key. index 2 and 3 are the work area dimensions
-        work_area = primary_monitor.get("Work")
-        work_width = work_area[2]
-        work_height = work_area[3]
-        # #standard with and height of the window that I like
-        window_width = 1300
-        window_height = 500
-        # #center top left corner of window
-        x = (work_width - window_width) // 2
-        y = (work_height - window_height) // 2
-        return [x , y]
-    
-    def other(self):
+    #calculates and returns the appropriate geometry values for the main window in the form of a list: [x, y, window_width, window_height]
+    def window_dimensions(self, window_width, window_height):
         screen = app.primaryScreen()
         #availableGeometry gets the work area (desktop - taskbar)
         geo = screen.availableGeometry()
         #size dimensions of qmainwindow
-        window_width = 1300
-        window_height = 500
         work_height = geo.height()
         work_width = geo.width()
         #center top left corner of the window
         x = (work_width - window_width) // 2
         y = (work_height - window_height) // 2
-        return [x , y]
+        return [x , y, window_width, window_height]
 
 
     #sets up the pop up window that displays the given message
