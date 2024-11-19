@@ -3,6 +3,8 @@ from PyQt5.QtWidgets import *
 from PyQt5 import QtGui
 import sys
 import keyword_functions
+import ctypes
+
 
 class MainWindow(QWidget):
     def __init__(self):
@@ -281,6 +283,12 @@ if __name__ == '__main__':
     #from stack overflow, disables the '?' button in the input dialog for adding words (application wide)
     #because disabling it in the constructor for said dialog would not work, don't know why
     app.setAttribute(QtCore.Qt.AA_DisableWindowContextHelpButton)
+
+    #changes taskbar icon to 'logo.png' instead of default python icon
+    # https://stackoverflow.com/questions/1551605/how-to-set-applications-taskbar-icon-in-windows-7/1552105#1552105
+    myappid = 'mycompany.myproduct.subproduct.version' # arbitrary string
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+    
     #create window
     window = MainWindow()
     window.show()
