@@ -2,4 +2,5 @@
 ![image](./screen1.PNG)
 ![image](./screen2.PNG)
 ![image](./screen3.PNG)
-[click](https://github.com/somatis-samuel-9006/Keyword-Checker/releases/download/test/screen1.PNG)
+
+[comment]: [click](https://github.com/somatis-samuel-9006/Keyword-Checker/releases/download/test/screen1.PNG)
