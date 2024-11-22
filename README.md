@@ -2,4 +2,4 @@
 ![image](./screen1.PNG)
 ![image](./screen2.PNG)
 ![image](./screen3.PNG)
-[thing.zip](./thing.zip)
+[click](https://github.com/somatis-samuel-9006/Keyword-Checker/blob/main/screen1.PNG)
